@@ -5,7 +5,7 @@ module Rack
     include Rack::Utils
 
     class << self
-      attr_accessor :word_list, :selection_class
+      attr_accessor :word_list, :selection_classes
     end
 
     def initialize(app)
@@ -14,19 +14,22 @@ module Rack
 
     def call(env)
       status, headers, body = @app.call(env)
-      if self.class.word_list.is_a?(Array)
-        classes = self.class.selection_class.is_a?(Array) ? self.class.selection_class.map{|x| ".#{x}"}.join(',') : '*'
+      if headers['Content-Type'].to_s.include?('text/html') && self.class.word_list.is_a?(Array)
+        words = self.class.word_list.join('|')
+        new_body = []
+        classes = self.class.selection_classes.is_a?(Array) ? self.class.selection_classes.map{|x| ".#{x}"}.join(',') : 'body'
         body.each do |b|
           doc = Nokogiri::HTML(b)
-          self.class.word_list.each do |word|
-            doc.css(classes).each do |elem|
-              elem.content = elem.content.gsub(/\b(#{word})\b/i, '<strong>\\1</strong>')
-            end
+          doc.css(classes).each do |elem|
+            elem.inner_html = elem.inner_html.gsub(/(\b#{words}\b)(?![^<>]*>|.*?<\/strong>)/i, '<strong>\\1</strong>')
           end
-          b = doc.to_s
+          new_body << doc.to_html
         end
+        headers['Content-Length'] &&= bytesize(new_body.join).to_s
+        body = new_body
       end
       [status, headers, body]
     end
+
   end
 end
