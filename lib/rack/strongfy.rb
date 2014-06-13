@@ -15,7 +15,7 @@ module Rack
       if self.class.word_list.is_a?(Array)
         body.each do |b|
           self.class.word_list.each do |word|
-            b.gsub!(/\b(#{word})\b/, "<strong>#{$1}</strong>")
+            b.gsub!(/\b(#{word})\b/i, '<strong>\\1</strong>')
           end
         end
       end
