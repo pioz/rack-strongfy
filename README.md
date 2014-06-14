@@ -31,5 +31,5 @@ classes specified in the variable `selection_classes`.
 
 ## Copyright
 
-Copyright (c) 2014 [Enrico Pilotto (@pioz)]([https://github.com/pioz).
+Copyright (c) 2014 Enrico Pilotto ([@pioz]([https://github.com/pioz)).
 See [LICENSE](https://github.com/pioz/rack-strongfy/blob/master/LICENSE) for details.
