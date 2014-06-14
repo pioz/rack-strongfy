@@ -10,8 +10,8 @@ Gem::Specification.new do |spec|
   spec.email         = ['enrico@megiston.it']
   spec.description   = %q{Wrap specific words with strong tag}
   spec.summary       = %q{Wrap specific words in html with strong tag}
-  spec.homepage      = ''
-  spec.license       = 'MIT'
+  spec.homepage      = 'https://github.com/pioz/rack-strongfy'
+  spec.license       = 'LGPL'
 
   spec.files         = `git ls-files`.split($/)
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
